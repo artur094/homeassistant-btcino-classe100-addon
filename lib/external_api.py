@@ -3,8 +3,9 @@ from typing import Optional
 
 import requests
 
-from lib.dto import Token, Entity
+from lib.dto import Token, Entity, User
 from lib.exceptions import ExternalApiException
+from lib.storage import Storage
 
 
 class ExternalApi:
@@ -41,7 +42,17 @@ class ExternalApi:
         )
 
     @staticmethod
-    def get_entities(token: Token):
+    def handle_token(user: User) -> Token:
+        token = Storage.get_token()
+        if token is None or token.is_expired():
+            token = ExternalApi.login(user.username, user.password, user.client_secret, token)
+            Storage.store_token(token)
+        return token
+
+    @staticmethod
+    def get_entities(user: User) -> list[Entity]:
+        token = ExternalApi.handle_token(user)
+
         headers = {
             "Authorization": f"Bearer {token.access_token}",
         }
@@ -87,7 +98,9 @@ class ExternalApi:
             for home in response_json["body"]["homes"] for entity in home["modules"]]
 
     @staticmethod
-    def trigger_action(entity: Entity, token: Token):
+    def trigger_action(user: User, entity: Entity):
+        token = ExternalApi.handle_token(user)
+
         headers = {
             "Authorization": f"Bearer {token.access_token}",
         }
