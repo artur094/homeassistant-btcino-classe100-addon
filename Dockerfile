@@ -1,4 +1,5 @@
-FROM python:3.12
+ARG BUILD_FROM
+FROM $BUILD_FROM
 
 WORKDIR /app
 COPY . /app/
