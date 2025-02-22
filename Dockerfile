@@ -1,7 +1,7 @@
 FROM python:3.12
 
 WORKDIR /app
-COPY * /app
+COPY . /app
 
 RUN chmod +x /app/run.sh
 
