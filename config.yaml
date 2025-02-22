@@ -1,0 +1,16 @@
+name: "Btcino Classe 100 Integration Addon"
+description: "Home Assistant Addon for Btcino Classe 100 Intercom"
+version: "0.0.1"
+slug: "btcino-classe-100-addon"
+init: false
+boot: auto
+startup: application
+ports:
+  - 5000
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+homeassistant_api: true
