@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from typing import Optional
 
 from lib.dto import Token, Entity
@@ -16,6 +17,7 @@ class Storage:
             existing_data = {}
 
         existing_data["token"] = token.__dict__
+        existing_data["token"]["expires_at"] = token.expires_at.isoformat()
 
         with open(Storage.STORAGE_FILE, "w") as f:
             f.write(json.dumps(existing_data))
@@ -29,7 +31,8 @@ class Storage:
             existing_data = {}
 
         if "token" in existing_data:
-            return Token(**existing_data["token"])
+            token = Token(**existing_data["token"])
+            token.expires_at = datetime.fromisoformat(existing_data["token"]["expires_at"])
 
         return None
 
