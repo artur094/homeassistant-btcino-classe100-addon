@@ -3,7 +3,7 @@ FROM $BUILD_FROM
 
 RUN \
   apk add --no-cache \
-    python3
+    python3.12
 
 WORKDIR /app
 COPY . /app/
