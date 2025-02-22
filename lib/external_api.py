@@ -9,7 +9,7 @@ from lib.storage import Storage
 
 
 class ExternalApi:
-    HOST = "https://app.netatmo.net/syncapi/v1"
+    HOST = "https://app.netatmo.net"
 
     @staticmethod
     def login(username: str, password: str, client_secret: str, token: Optional[Token]) -> Token:
@@ -26,7 +26,7 @@ class ExternalApi:
         if token is not None:
             data["refresh_token"] = token.refresh_token
 
-        response = requests.post(f"{ExternalApi.HOST}/oauth2/token", files=data)
+        response = requests.post(f"{ExternalApi.HOST}/oauth2/token", data=data)
 
         if response.status_code > 299:
             raise ExternalApiException("Login failed")

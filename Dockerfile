@@ -3,7 +3,7 @@ FROM $BUILD_FROM
 
 RUN \
   apk add --no-cache \
-    python3.12
+    python3
 
 RUN apk add --update py-pip
 
