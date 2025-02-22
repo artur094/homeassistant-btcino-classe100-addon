@@ -9,8 +9,11 @@ class Storage:
 
     @staticmethod
     def store_token(token: Token):
-        with open(Storage.STORAGE_FILE, "r") as f:
-            existing_data = json.loads(f.read())
+        try:
+            with open(Storage.STORAGE_FILE, "r") as f:
+                existing_data = json.loads(f.read())
+        except FileNotFoundError:
+            existing_data = {}
 
         existing_data["token"] = token.__dict__
 
@@ -19,8 +22,11 @@ class Storage:
 
     @staticmethod
     def get_token() -> Optional[Token]:
-        with open(Storage.STORAGE_FILE, "r") as f:
-            existing_data = json.loads(f.read())
+        try:
+            with open(Storage.STORAGE_FILE, "r") as f:
+                existing_data = json.loads(f.read())
+        except FileNotFoundError:
+            existing_data = {}
 
         if "token" in existing_data:
             return Token(**existing_data["token"])
@@ -29,8 +35,11 @@ class Storage:
 
     @staticmethod
     def store_entities(entities: list[Entity]):
-        with open(Storage.STORAGE_FILE, "r") as f:
-            existing_data = json.loads(f.read())
+        try:
+            with open(Storage.STORAGE_FILE, "r") as f:
+                existing_data = json.loads(f.read())
+        except FileNotFoundError:
+            existing_data = {}
 
         existing_data["entities"] = [entity.__dict__ for entity in entities]
 
@@ -39,8 +48,11 @@ class Storage:
 
     @staticmethod
     def get_entities() -> Optional[list[Entity]]:
-        with open(Storage.STORAGE_FILE, "r") as f:
-            existing_data = json.loads(f.read())
+        try:
+            with open(Storage.STORAGE_FILE, "r") as f:
+                existing_data = json.loads(f.read())
+        except FileNotFoundError:
+            existing_data = {}
 
         if "entities" in existing_data:
             return [Entity(**entity) for entity in existing_data["entities"]]
