@@ -12,7 +12,8 @@ class Storage:
     def store_token(token: Token):
         try:
             with open(Storage.STORAGE_FILE, "r") as f:
-                existing_data = json.loads(f.read())
+                content = f.read()
+                existing_data = json.loads(f.read() if content is not None and content != "" else "{}")
         except FileNotFoundError:
             existing_data = {}
 
@@ -33,7 +34,8 @@ class Storage:
     def get_token() -> Optional[Token]:
         try:
             with open(Storage.STORAGE_FILE, "r") as f:
-                existing_data = json.loads(f.read())
+                content = f.read()
+                existing_data = json.loads(f.read() if content is not None and content != "" else "{}")
         except FileNotFoundError:
             existing_data = {}
 
@@ -52,7 +54,8 @@ class Storage:
     def store_entities(entities: list[Entity]):
         try:
             with open(Storage.STORAGE_FILE, "r") as f:
-                existing_data = json.loads(f.read())
+                content = f.read()
+                existing_data = json.loads(f.read() if content is not None and content != "" else "{}")
         except FileNotFoundError:
             existing_data = {}
 
@@ -72,7 +75,8 @@ class Storage:
     def get_entities() -> Optional[list[Entity]]:
         try:
             with open(Storage.STORAGE_FILE, "r") as f:
-                existing_data = json.loads(f.read())
+                content = f.read()
+                existing_data = json.loads(f.read() if content is not None and content != "" else "{}")
         except FileNotFoundError:
             existing_data = {}
 
