@@ -31,8 +31,10 @@ class Storage:
             existing_data = {}
 
         if "token" in existing_data:
-            token = Token(**existing_data["token"])
-            token.expires_at = datetime.fromisoformat(existing_data["token"]["expires_at"])
+            return Token({
+                **existing_data["token"],
+                "expires_at": datetime.fromisoformat(existing_data["token"]["expires_at"])
+            })
 
         return None
 
