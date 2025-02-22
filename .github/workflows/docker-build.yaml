@@ -36,7 +36,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}/homeassistant-addon
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/homeassistant-btcino-classe100-addon
           tags: latest
 
       - name: Extract metadata (tags, labels)
@@ -44,7 +44,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}/homeassistant-addon
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/homeassistant-btcino-classe100-addon
           tags: ${{ github.ref_name }}
 
       - name: Build and push for main branch
