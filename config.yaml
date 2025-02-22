@@ -6,7 +6,7 @@ init: false
 boot: auto
 startup: application
 ports:
-  - 5000
+  5000/tcp: 5000
 arch:
   - aarch64
   - amd64
