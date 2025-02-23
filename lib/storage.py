@@ -13,7 +13,7 @@ class Storage:
         try:
             with open(Storage.STORAGE_FILE, "r") as f:
                 content = f.read()
-                existing_data = json.loads(f.read() if content is not None and content != "" else "{}")
+                existing_data = json.loads(content if content is not None and content != "" else "{}")
         except FileNotFoundError:
             existing_data = {}
 
@@ -35,7 +35,7 @@ class Storage:
         try:
             with open(Storage.STORAGE_FILE, "r") as f:
                 content = f.read()
-                existing_data = json.loads(f.read() if content is not None and content != "" else "{}")
+                existing_data = json.loads(content if content is not None and content != "" else "{}")
         except FileNotFoundError:
             existing_data = {}
 
@@ -55,7 +55,7 @@ class Storage:
         try:
             with open(Storage.STORAGE_FILE, "r") as f:
                 content = f.read()
-                existing_data = json.loads(f.read() if content is not None and content != "" else "{}")
+                existing_data = json.loads(content if content is not None and content != "" else "{}")
         except FileNotFoundError:
             existing_data = {}
 
@@ -76,7 +76,7 @@ class Storage:
         try:
             with open(Storage.STORAGE_FILE, "r") as f:
                 content = f.read()
-                existing_data = json.loads(f.read() if content is not None and content != "" else "{}")
+                existing_data = json.loads(content if content is not None and content != "" else "{}")
         except FileNotFoundError:
             existing_data = {}
 
