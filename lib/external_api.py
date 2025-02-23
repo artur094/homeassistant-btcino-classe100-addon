@@ -29,7 +29,7 @@ class ExternalApi:
         response = requests.post(f"{ExternalApi.HOST}/oauth2/token", data=data)
 
         if response.status_code > 299:
-            raise ExternalApiException("Login failed")
+            raise ExternalApiException(f"Login failed: {response.text}")
 
         response_json = response.json()
 
@@ -79,10 +79,10 @@ class ExternalApi:
             "sync_measurements": False
         }
 
-        response = requests.get(f"{ExternalApi.HOST}/homesdata", headers=headers, json=data)
+        response = requests.get(f"{ExternalApi.HOST}/api/homesdata", headers=headers, json=data)
 
         if response.status_code > 299:
-            raise ExternalApiException("Login failed")
+            raise ExternalApiException(f"Homes data api failed: {response.text}")
 
         response_json = response.json()
 
@@ -95,7 +95,7 @@ class ExternalApi:
                 home_id=home["id"],
                 home_name=home["name"],
             )
-            for home in response_json["body"]["homes"] for entity in home["modules"]]
+            for home in response_json["body"]["homes"] for entity in home["modules"] if "bridge" in entity]
 
     @staticmethod
     def trigger_action(user: User, entity: Entity):
@@ -109,7 +109,7 @@ class ExternalApi:
 
         if entity.type == "BNDL":
             action["lock"] = False
-        elif entity.type == "BND1":
+        elif entity.type == "BNSL":
             action["on"] = True
 
         data = {
@@ -131,6 +131,6 @@ class ExternalApi:
         response = requests.post(f"{ExternalApi.HOST}/syncapi/v1/setstate", headers=headers, json=data)
 
         if response.status_code > 299:
-            raise ExternalApiException("Login failed")
+            raise ExternalApiException(f"Trigger action failed: {response.text}")
 
         return True

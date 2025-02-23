@@ -18,7 +18,9 @@ def entities():
     retrieved_entities = ExternalApi.get_entities(User(username, password, client_secret))
     Storage.store_entities(retrieved_entities)
 
-    return jsonify(json.dumps(retrieved_entities))
+    return jsonify(json.dumps([
+        entity.to_json() for entity in retrieved_entities
+    ]))
 
 @app.route('/trigger/<entity_id>', methods=['POST'])
 def trigger(entity_id):
@@ -30,6 +32,8 @@ def trigger(entity_id):
     entity = next(entity for entity in retrieved_entities if entity.id == entity_id)
 
     ExternalApi.trigger_action(User(username, password, client_secret), entity)
+
+    return '', 204
 
 
 if __name__ == '__main__':

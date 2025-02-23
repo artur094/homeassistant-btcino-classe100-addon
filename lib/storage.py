@@ -17,15 +17,7 @@ class Storage:
         except FileNotFoundError:
             existing_data = {}
 
-        json_data = {
-            "access_token": token.access_token,
-            "refresh_token": token.refresh_token,
-            "expires_in": token.expires_in,
-            "expires_at": token.expires_at.isoformat(),
-            "scope": token.scope,
-        }
-
-        existing_data["token"] = json_data
+        existing_data["token"] = token.to_json()
 
         with open(Storage.STORAGE_FILE, "w") as f:
             f.write(json.dumps(existing_data))
@@ -40,13 +32,7 @@ class Storage:
             existing_data = {}
 
         if "token" in existing_data:
-            return Token(
-                access_token=existing_data["token"]["access_token"],
-                refresh_token=existing_data["token"]["refresh_token"],
-                expires_in=existing_data["token"]["expires_in"],
-                expires_at=datetime.fromisoformat(existing_data["token"]["expires_at"]),
-                scope=existing_data["token"]["scope"],
-            )
+            return Token.from_json(existing_data["token"])
 
         return None
 
@@ -59,14 +45,7 @@ class Storage:
         except FileNotFoundError:
             existing_data = {}
 
-        existing_data["entities"] = [{
-            "id": entity.id,
-            "type": entity.type,
-            "name": entity.name,
-            "bridge": entity.bridge,
-            "home_id": entity.home_id,
-            "home_name": entity.home_name,
-        } for entity in entities]
+        existing_data["entities"] = [entity.to_json() for entity in entities]
 
         with open(Storage.STORAGE_FILE, "w") as f:
             f.write(json.dumps(existing_data))
@@ -81,13 +60,6 @@ class Storage:
             existing_data = {}
 
         if "entities" in existing_data:
-            return [Entity(
-                id=entity["id"],
-                type=entity["type"],
-                name=entity["name"],
-                bridge=entity["bridge"],
-                home_id=entity["home_id"],
-                home_name=entity["home_name"],
-            ) for entity in existing_data["entities"]]
+            return [Entity.from_json(entity) for entity in existing_data["entities"]]
 
         return None
