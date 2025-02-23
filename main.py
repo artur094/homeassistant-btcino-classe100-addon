@@ -18,9 +18,9 @@ def entities():
     retrieved_entities = ExternalApi.get_entities(User(username, password, client_secret))
     Storage.store_entities(retrieved_entities)
 
-    return jsonify(json.dumps([
+    return jsonify([
         entity.to_json() for entity in retrieved_entities
-    ]))
+    ])
 
 @app.route('/trigger/<entity_id>', methods=['POST'])
 def trigger(entity_id):
